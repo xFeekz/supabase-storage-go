@@ -7,7 +7,7 @@ This library is a Golang client for the [Supabase Storage API](https://supabase.
 #### Install
 
 ```shell
-go get github.com/supabase-community/storage-go
+go get github.com/xFeekz/supabase-storage-go
 ```
 
 ### Connecting to the storage backend
