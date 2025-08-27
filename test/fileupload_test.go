@@ -8,7 +8,7 @@ import (
 	"sync"
 	"testing"
 
-	storage_go "github.com/supabase-community/storage-go"
+	storage_go "github.com/xFeekz/supabase-storage-go"
 )
 
 var (
