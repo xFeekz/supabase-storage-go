@@ -31,7 +31,7 @@ func (t transport) RoundTrip(request *http.Request) (*http.Response, error) {
 	return http.DefaultTransport.RoundTrip(request)
 }
 
-func NewClient(rawUrl string, token string, headers map[string]string) *Client {
+func NewClient(rawUrl string, token string, apiKey string, headers map[string]string) *Client {
 	baseURL, err := url.Parse(rawUrl)
 	if err != nil {
 		return &Client{
@@ -53,7 +53,16 @@ func NewClient(rawUrl string, token string, headers map[string]string) *Client {
 	c.clientTransport.header.Set("Accept", "application/json")
 	c.clientTransport.header.Set("Content-Type", "application/json")
 	c.clientTransport.header.Set("X-Client-Info", "storage-go/"+version)
-	c.clientTransport.header.Set("Authorization", "Bearer "+token)
+
+	// Check its using the new supabase API key or old jwt
+	if apiKey != "" {
+		c.clientTransport.header.Set("apiKey", apiKey)
+	} else {
+		if token == "" {
+			panic("please specify atleast token or apikey")
+		}
+		c.clientTransport.header.Set("Authorization", "Bearer "+token)
+	}
 
 	// Optional headers [if exists]
 	for key, value := range headers {
